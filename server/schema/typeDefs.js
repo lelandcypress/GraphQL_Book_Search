@@ -28,7 +28,6 @@ user:User!
 type Query{
 books: Book
 book(bookId:ID!)
-user:User
 me: User
 }
 
