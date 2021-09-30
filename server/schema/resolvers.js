@@ -16,8 +16,10 @@ const resolvers = {
 
     me: async (parent, { _id }, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }), populate("books");
+        return User.findOne({ _id: context.user._id }).populate("books");
       }
+
+      throw new AuthenticationError("You need to log in");
     },
   },
 };
@@ -37,8 +39,8 @@ Mutation: {
     if (!correctPw) {
       throw new AuthenticationError("Invalid Login Credentials");
     }
-    const token = signToken(profile);
-    return { token, profile };
+    const token = signToken(user);
+    return { token, user };
   };
 
   saveBook: async (parent, { _id }, context) => {
@@ -49,6 +51,7 @@ Mutation: {
         { new: true, runValidators: true }
       );
     }
+    throw new AuthenticationError("You need to log in");
   };
 
   deleteBook: async (parent, { bookId }, context) => {
@@ -59,6 +62,7 @@ Mutation: {
         { new: true }
       );
     }
+    throw new AuthenticationError("You need to log in");
   };
 }
 module.exports = resolvers;
