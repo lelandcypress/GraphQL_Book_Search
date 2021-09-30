@@ -33,7 +33,7 @@ me: User
 
 type Mutation{
    createUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
+    loginUser(email: String!, password: String!): Auth
     saveBook(Book!):User
     deleteBook(bookId:ID!):User
 }

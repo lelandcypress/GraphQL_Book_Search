@@ -30,7 +30,7 @@ Mutation: {
     return { token, user };
   };
 
-  login: async (parent, { email, password }) => {
+  loginUser: async (parent, { email, password }) => {
     const user = User.findOne({ email });
     if (!user) {
       throw new AuthenticationError("Invalid Login Credentials");
