@@ -4,17 +4,7 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    books: async () => {
-      return Book.find();
-    },
-    book: async (parent, { bookId }, context) => {
-      return Book.findOne({ bookId });
-    },
-    user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("books");
-    },
-
-    me: async (parent, { _id }, context) => {
+    me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("books");
       }
@@ -43,12 +33,12 @@ Mutation: {
     return { token, user };
   };
 
-  saveBook: async (parent, { _id }, context) => {
+  saveBook: async (parent, { bookData }, context) => {
     if (context.user) {
       return User.findOneAndUpdate(
         { _id: context.user._id },
-        { $addToSet: { book: context.books } },
-        { new: true, runValidators: true }
+        { $pull: { savedBook: bookData } },
+        { new: true }
       );
     }
     throw new AuthenticationError("You need to log in");
@@ -58,7 +48,8 @@ Mutation: {
     if (context.user) {
       return User.findOneAndUpdate(
         { _id: contex.user._id },
-        { $pull: { bookId: context.bookId } },
+        //remove selected books from the savedBooks Array
+        { $pull: { savedBooks: context.bookId } },
         { new: true }
       );
     }
