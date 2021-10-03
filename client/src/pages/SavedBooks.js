@@ -12,7 +12,7 @@ import {
 
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
-
+//allows us to use GraphQL to fetch user profile and delete books
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   const [deleteBook, { error }] = useMutation(REMOVE_BOOK);
@@ -28,6 +28,7 @@ const SavedBooks = () => {
     }
 
     try {
+      //changed here as well
       await deleteBook({
         variables: { bookId },
       });

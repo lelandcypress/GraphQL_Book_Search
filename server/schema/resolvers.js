@@ -15,9 +15,9 @@ const resolvers = {
 };
 Mutation: {
   createUser: async (parent, { username, email, password }) => {
+    //create user profile 
     const user = await User.create({ username, email, password });
-    console.log("user:", user);
-    console.log("token:", token);
+    //assign token to user
     const token = signToken(user);
     return { token, user };
   };
@@ -27,10 +27,10 @@ Mutation: {
     if (!user) {
       throw new AuthenticationError("Invalid Login Credentials");
     }
-    /*const correctPw = await profile.isCorrectPassword(password);
+    const correctPw = await profile.isCorrectPassword(password);
     if (!correctPw) {
       throw new AuthenticationError("Invalid Login Credentials");
-    }*/
+    }
     const token = signToken(user);
     return { token, user };
   };
@@ -39,7 +39,7 @@ Mutation: {
     if (context.user) {
       return User.findOneAndUpdate(
         { _id: context.user._id },
-        { $pull: { savedBook: bookData } },
+        { $addToSet: { savedBooks: bookData } },
         { new: true }
       );
     }

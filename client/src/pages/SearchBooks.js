@@ -16,6 +16,7 @@ import { searchGoogleBooks } from "../utils/API";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
 
 const SearchBooks = () => {
+  //GraphQL Change
   const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // create state for holding returned google api data
@@ -77,12 +78,13 @@ const SearchBooks = () => {
     }
 
     try {
+      //GraphQL Change
       const response = await saveBook({
         variables: { saveBook, token },
       });
 
       if (!response.ok) {
-        throw new Error("OH SHIT! Something went wrong!");
+        throw new Error("Error in saving book");
       }
 
       // if book successfully saves to user's account, save book id to state
