@@ -23,9 +23,9 @@ To ensure this app is running properly, run npm ii to make sure all proper depen
 1. Upon entering the page, you will have the opportunity to search for books. entering the name in the search bar will return title, authors, description and image.
    ![booksearch](./readme_pics/search.png)
 2. To save books, you must login. Once you have entered the proper credentials, and you token is createred, you will have access to the save books feature
-    ![booksave](./readme_pics/savebooks.png)
+
 3. You can also delete books
-    ![bookdelete](./readme_pics/deletebooks.png)
+
    4.If you logout and log back in you will see your saved books persist.
 
 ## License

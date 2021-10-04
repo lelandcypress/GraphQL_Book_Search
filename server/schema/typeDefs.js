@@ -18,8 +18,8 @@ const typeDefs = gql`
     title: String
   }
   type User {
-    _id: ID
-    username: String
+    _id: ID!
+    username: String!
     email: String
     password: String
     savedBooks: [Books]
@@ -33,12 +33,12 @@ const typeDefs = gql`
   }
   type Mutation {
     ##creates a user profile through the Auth type, that way we can pass a token upon creation
-    createUser(username: String!, email: String!, password: String!): Auth
-    
+    addUser(username: String!, email: String!, password: String!): Auth
+
     login(email: String!, password: String!): Auth
-    
+
     saveBook(bookData: SavedBooks): User
-    
+
     deleteBook(bookId: ID!): User
   }
 `;

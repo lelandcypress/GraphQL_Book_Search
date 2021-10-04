@@ -12,15 +12,19 @@ const resolvers = {
       throw new AuthenticationError("You need to log in");
     },
   },
-};
-Mutation: {
-  createUser: async (parent, { username, email, password }) => {
-    //create user profile 
-    const user = await User.create({ username, email, password });
+
+  Mutation: {
+  //try refactoring as a .then
+  addUser: async (parent, args) => {
+    //create user profile
+  
+    const user = await User.create(args);
     //assign token to user
     const token = signToken(user);
+    //  await console.log("test");
+      console.log(args);
     return { token, user };
-  };
+  },
 
   login: async (parent, { email, password }) => {
     const user = User.findOne({ email });
@@ -33,7 +37,7 @@ Mutation: {
     }
     const token = signToken(user);
     return { token, user };
-  };
+  },
 
   saveBook: async (parent, { bookData }, context) => {
     if (context.user) {
@@ -44,7 +48,7 @@ Mutation: {
       );
     }
     throw new AuthenticationError("You need to log in");
-  };
+  },
 
   deleteBook: async (parent, { bookId }, context) => {
     if (context.user) {
@@ -56,6 +60,7 @@ Mutation: {
       );
     }
     throw new AuthenticationError("You need to log in");
-  };
+  }
+}
 }
 module.exports = resolvers;

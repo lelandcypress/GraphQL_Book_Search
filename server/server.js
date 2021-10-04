@@ -39,4 +39,4 @@ async function startApolloServer() {
     );
   });
 }
-startApolloServer()
+startApolloServer();
