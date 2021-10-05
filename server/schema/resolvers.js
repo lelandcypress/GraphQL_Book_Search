@@ -14,53 +14,56 @@ const resolvers = {
   },
 
   Mutation: {
-  //try refactoring as a .then
-  addUser: async (parent, args) => {
-    //create user profile
-  
-    const user = await User.create(args);
-    //assign token to user
-    const token = signToken(user);
-    //  await console.log("test");
-      console.log(args);
-    return { token, user };
-  },
+    //try refactoring as a .then
+    addUser: async (parent, args) => {
+      //create user profile
 
-  login: async (parent, { email, password }) => {
-    const user = User.findOne({ email });
-    if (!user) {
-      throw new AuthenticationError("Invalid Login Credentials");
-    }
-    const correctPw = await profile.isCorrectPassword(password);
-    if (!correctPw) {
-      throw new AuthenticationError("Invalid Login Credentials");
-    }
-    const token = signToken(user);
-    return { token, user };
-  },
+      const user = await User.create(args);
+      //assign token to user
+      const token = signToken(user);
 
-  saveBook: async (parent, { bookData }, context) => {
-    if (context.user) {
-      return User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $addToSet: { savedBooks: bookData } },
-        { new: true }
-      );
-    }
-    throw new AuthenticationError("You need to log in");
-  },
+      return { token, user };
+    },
 
-  deleteBook: async (parent, { bookId }, context) => {
-    if (context.user) {
-      return User.findOneAndUpdate(
-        { _id: contex.user._id },
-        //remove selected books from the savedBooks Array
-        { $pull: { savedBooks: context.bookId } },
-        { new: true }
-      );
-    }
-    throw new AuthenticationError("You need to log in");
-  }
-}
-}
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      //user created
+      if (!user) {
+        throw new AuthenticationError("Invalid Login Credentials");
+      }
+      const correctPw = await user.isCorrectPassword(password);
+      //console.log(correctPw); returns true
+
+      if (!correctPw) {
+        throw new AuthenticationError("Invalid Login Credentials");
+      }
+      const token = signToken(user);
+      console.log(token); //returns a token
+      return { token, user };
+    },
+
+    saveBook: async (parent, { bookData }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: bookData } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to log in");
+    },
+
+    deleteBook: async (parent, { bookId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: contex.user._id },
+          //remove selected books from the savedBooks Array
+          { $pull: { savedBooks: context.bookId } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to log in");
+    },
+  },
+};
 module.exports = resolvers;

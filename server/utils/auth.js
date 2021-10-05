@@ -21,6 +21,7 @@ module.exports = {
 
     // verify token and get user data out of it
     try {
+      //{data} is what will be passed back to the FE make sure any FE mutation using JWT accounts for {data} as a child element
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
     } catch {
